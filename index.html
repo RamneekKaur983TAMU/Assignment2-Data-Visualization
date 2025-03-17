@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Temperature Matrix with Daily Details</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h2>Temperature Matrix View (Level 1)</h2>
+    <div class="controls">
+      <label>
+        <input type="radio" name="tempType" value="max" checked />
+        Max Temperature
+      </label>
+      <label>
+        <input type="radio" name="tempType" value="min" />
+        Min Temperature
+      </label>
+    </div>
+    <svg id="heatmap" width="900" height="450"></svg>
+
+    <h2>Temperature Matrix with Daily Details (Level 2)</h2>
+    <svg id="heatmap2" width="900" height="500"></svg>
+
+    <div class="tooltip"></div>
+    <script src="script.js"></script>
+  </body>
+</html>

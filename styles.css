@@ -1,0 +1,64 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .controls {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  label {
+    font-size: 14px;
+    margin-right: 10px;
+  }
+  
+  svg {
+    display: block;
+    margin: 20px auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+  }
+  
+  .tooltip {
+    position: absolute;
+    background: #fff;
+    padding: 8px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    pointer-events: none;
+    font-size: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .legend, .mini-legend {
+    font-size: 12px;
+    text-align: center;
+  }
+  
+  .legend text,
+  .mini-legend text {
+    fill: #333;
+  }
+  
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #333;
+    shape-rendering: crispEdges;
+  }
+  
