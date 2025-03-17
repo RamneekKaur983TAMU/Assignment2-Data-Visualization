@@ -4,11 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Temperature Matrix with Daily Details</title>
+    
+    <!-- D3.js library for data visualization -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <!-- External stylesheet for styling the page -->
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <h2>Temperature Matrix View (Level 1)</h2>
+    
+    <!-- Radio buttons to toggle between max and min temperatures -->
     <div class="controls">
       <label>
         <input type="radio" name="tempType" value="max" checked />
@@ -19,12 +25,19 @@
         Min Temperature
       </label>
     </div>
+    
+    <!-- SVG container for the first heatmap -->
     <svg id="heatmap" width="900" height="450"></svg>
 
     <h2>Temperature Matrix with Daily Details (Level 2)</h2>
+    
+    <!-- SVG container for the second heatmap with more details -->
     <svg id="heatmap2" width="900" height="500"></svg>
 
+    <!-- Tooltip for displaying extra information on hover -->
     <div class="tooltip"></div>
+
+    <!-- JavaScript file handling the visualization logic -->
     <script src="script.js"></script>
   </body>
 </html>

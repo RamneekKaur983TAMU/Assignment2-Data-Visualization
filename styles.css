@@ -1,64 +1,72 @@
-
+/* Universal selector to ensure consistent box sizing, margin, and padding */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #f0f0f0;
-    padding: 20px;
-  }
-  
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .controls {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  label {
-    font-size: 14px;
-    margin-right: 10px;
-  }
-  
-  svg {
-    display: block;
-    margin: 20px auto;
-    background-color: #fff;
-    border: 1px solid #ddd;
-  }
-  
-  .tooltip {
-    position: absolute;
-    background: #fff;
-    padding: 8px;
-    border: 1px solid #aaa;
-    border-radius: 4px;
-    pointer-events: none;
-    font-size: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .legend, .mini-legend {
-    font-size: 12px;
-    text-align: center;
-  }
-  
-  .legend text,
-  .mini-legend text {
-    fill: #333;
-  }
-  
-  .axis path,
-  .axis line {
-    fill: none;
-    stroke: #333;
-    shape-rendering: crispEdges;
-  }
-  
+  box-sizing: border-box; /* Ensures padding and border are included in element's total width/height */
+  margin: 0; /* Resets margin to 0 */
+  padding: 0; /* Resets padding to 0 */
+}
+
+/* Body styling to apply background and padding */
+body {
+  font-family: Arial, Helvetica, sans-serif; /* Sets the font family */
+  background-color: #f0f0f0; /* Light grey background color */
+  padding: 20px; /* Adds padding around the body content */
+}
+
+/* Styling for all h2 elements */
+h2 {
+  text-align: center; /* Centers the heading text */
+  margin-bottom: 20px; /* Adds space below the heading */
+  color: #333; /* Dark grey text color */
+}
+
+/* Styling for controls section */
+.controls {
+  text-align: center; /* Centers the content inside the controls */
+  margin-bottom: 20px; /* Adds space below the controls section */
+}
+
+/* Label styling for form controls */
+label {
+  font-size: 14px; /* Sets the font size for labels */
+  margin-right: 10px; /* Adds space to the right of the label */
+}
+
+/* Styling for SVG elements */
+svg {
+  display: block; /* Makes the SVG block-level */
+  margin: 20px auto; /* Centers the SVG horizontally with some margin */
+  background-color: #fff; /* White background for SVG */
+  border: 1px solid #ddd; /* Light grey border around the SVG */
+}
+
+/* Tooltip styling that appears on hover */
+.tooltip {
+  position: absolute; /* Positions the tooltip absolutely in relation to the page */
+  background: #fff; /* White background for the tooltip */
+  padding: 8px; /* Adds padding inside the tooltip */
+  border: 1px solid #aaa; /* Grey border around the tooltip */
+  border-radius: 4px; /* Rounded corners for the tooltip */
+  pointer-events: none; /* Prevents the tooltip from interfering with mouse events */
+  font-size: 12px; /* Sets the font size of the tooltip text */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for better visibility */
+}
+
+/* Legend styling */
+.legend, .mini-legend {
+  font-size: 12px; /* Sets font size for legend text */
+  text-align: center; /* Centers the legend text */
+}
+
+/* Styling for text inside legends */
+.legend text,
+.mini-legend text {
+  fill: #333; /* Sets text color to dark grey */
+}
+
+/* Axis line and path styling */
+.axis path,
+.axis line {
+  fill: none; /* No fill for the axis path/line */
+  stroke: #333; /* Dark grey stroke color for the axis */
+  shape-rendering: crispEdges; /* Ensures sharp and clean edges for the axis */
+}

@@ -1,12 +1,18 @@
+// Define a date parser function using d3's timeParse
 const parseDate = d3.timeParse("%Y-%m-%d");
 
+// Load the CSV file and process the data
 d3.csv("./temperature_daily.csv").then(data => {
+// Parse the date and convert temperature values to numbers
+
   data.forEach(d => {
     d.date = parseDate(d.date);
     d.max_temperature = +d.max_temperature;
     d.min_temperature = +d.min_temperature;
   });
   console.log("Loaded Data:", data);
+
+// Aggregate the data by year and month, calculating max and min temperatures
 
   const aggregatedData = d3.rollup(
     data,
@@ -18,6 +24,7 @@ d3.csv("./temperature_daily.csv").then(data => {
     d => d.date.getMonth() + 1
   );
 
+// Process aggregated data into a flat array 
   const processedData = [];
   aggregatedData.forEach((months, year) => {
     months.forEach((temps, month) => {
@@ -30,14 +37,18 @@ d3.csv("./temperature_daily.csv").then(data => {
     });
   });
 
+  // Set margin and dimensions for the first heatmap SVG container
 
   const margin = { top: 50, right: 30, bottom: 80, left: 80 },
     width = 900 - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom;
+  // Create the first SVG container for the heatmap
 
   const svg1 = d3.select("#heatmap")
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
+
+  // Create the x and y scales for the heatmap
 
   const xScale = d3.scaleBand()
     .domain([...new Set(processedData.map(d => d.year))])
@@ -54,6 +65,8 @@ d3.csv("./temperature_daily.csv").then(data => {
       d3.min(processedData, d => d.min),
       d3.max(processedData, d => d.max)
     ]);
+
+  // Function to update the heatmap matrix based on temperature type (max or min)
 
   function updateMatrix(tempType) {
     const cells = svg1.selectAll(".matrix")
@@ -73,6 +86,8 @@ d3.csv("./temperature_daily.csv").then(data => {
 
     cells.exit().remove();
 
+    // Tooltip functionality for displaying temperature info on hover
+  
     svg1.selectAll(".matrix")
       .on("mouseover", function(event, d) {
         d3.select(".tooltip")
@@ -90,9 +105,10 @@ d3.csv("./temperature_daily.csv").then(data => {
         d3.select(".tooltip").style("display", "none");
       });
   }
-
+// Initialize heatmap with max temperature
   updateMatrix("max");
 
+// Create axes for the heatmap 
   svg1.append("g")
     .attr("transform", `translate(0,${height})`)
     .call(d3.axisBottom(xScale).tickFormat(d3.format("d")));
@@ -100,7 +116,8 @@ d3.csv("./temperature_daily.csv").then(data => {
     .call(d3.axisLeft(yScale)
       .tickFormat(d => d3.timeFormat("%B")(new Date(0, d - 1))));
 
-  const legendWidth1 = 300,
+// Create the legend for the color scale
+    const legendWidth1 = 300,
     legendHeight1 = 10;
 
   const legendGroup1 = d3.select("#heatmap")
@@ -112,13 +129,15 @@ d3.csv("./temperature_daily.csv").then(data => {
   const gradient1 = defs1.append("linearGradient")
     .attr("id", "legend-gradient-1");
 
+  // Create gradient stops for the legend
   gradient1.selectAll("stop")
     .data(d3.range(0, 1.01, 0.01))
     .enter()
     .append("stop")
     .attr("offset", d => d)
     .attr("stop-color", d => d3.interpolateYlOrRd(d));
-
+ 
+  // Append the legend rectangle
   legendGroup1.append("rect")
     .attr("width", legendWidth1)
     .attr("height", legendHeight1)
@@ -130,17 +149,21 @@ d3.csv("./temperature_daily.csv").then(data => {
       : d3.extent(processedData, d => d.min);
   }
 
+  // Create a scale for the legend
   const legendScale1 = d3.scaleLinear()
     .domain(aggregatedExtent("max"))
     .range([0, legendWidth1]);
 
+  // Create axis for the legend  
   const legendAxisGroup1 = legendGroup1.append("g")
     .attr("transform", `translate(0, ${legendHeight1})`)
     .call(d3.axisBottom(legendScale1).ticks(5));
 
+  // Get the data for the most recent 10 years  
   const maxYearData = d3.max(data, d => d.date.getFullYear());
   const filteredData = data.filter(d => d.date.getFullYear() >= maxYearData - 9);
 
+  // Create a map of daily data
   const dailyDataMap = d3.rollup(
     filteredData,
     v => v.sort((a, b) => d3.ascending(a.date, b.date)),
@@ -148,6 +171,7 @@ d3.csv("./temperature_daily.csv").then(data => {
     d => d.date.getMonth() + 1
   );
 
+  // Process daily data into a flat array
   const processedDailyData = [];
   dailyDataMap.forEach((months, year) => {
     months.forEach((days, month) => {
@@ -159,15 +183,17 @@ d3.csv("./temperature_daily.csv").then(data => {
     });
   });
 
-
+// Set margin and dimensions for the second heatmap SVG container
   const margin2 = { top: 50, right: 30, bottom: 100, left: 80 },
     width2 = 900 - margin2.left - margin2.right,
     height2 = 500 - margin2.top - margin2.bottom;
 
+// Create the second SVG container for the heatmap
   const svg2 = d3.select("#heatmap2")
     .append("g")
     .attr("transform", `translate(${margin2.left},${margin2.top})`);
 
+ // Define scales for the second heatmap    
   const years2 = [...new Set(processedDailyData.map(d => d.year))].sort((a, b) => a - b);
   const months2 = [...new Set(processedDailyData.map(d => d.month))].sort((a, b) => a - b);
 
@@ -194,6 +220,7 @@ d3.csv("./temperature_daily.csv").then(data => {
     d3.max(filteredData, d => d.max_temperature)
   ];
 
+ // Function to update the second heatmap matrix based on daily temperature data
 
   function updateMatrix2(tempType) {
     const [globalAggMin, globalAggMax] = getGlobalTempExtent(tempType);
@@ -292,6 +319,7 @@ d3.csv("./temperature_daily.csv").then(data => {
     cells.exit().remove();
   }
 
+  // Initialize the second heatmap
   updateMatrix2("max");
 
   svg2.append("g")
@@ -301,7 +329,7 @@ d3.csv("./temperature_daily.csv").then(data => {
     .call(d3.axisLeft(yScale2)
       .tickFormat(d => d3.timeFormat("%B")(new Date(0, d - 1))));
 
-
+ // Create the legend for the color scale
   const legendWidth2 = 300,
     legendHeight2 = 10;
 
@@ -314,6 +342,7 @@ d3.csv("./temperature_daily.csv").then(data => {
   const gradient2 = defs2.append("linearGradient")
     .attr("id", "legend-gradient-2");
 
+  // Create gradient stops for the legend
   gradient2.selectAll("stop")
     .data(d3.range(0, 1.01, 0.01))
     .enter()
@@ -326,10 +355,13 @@ d3.csv("./temperature_daily.csv").then(data => {
     .attr("height", legendHeight2)
     .style("fill", "url(#legend-gradient-2)");
 
+
+  // Create a scale for the legend
   const legendScale2 = d3.scaleLinear()
     .domain(getGlobalTempExtent("max"))
     .range([0, legendWidth2]);
 
+   // Create axis for the legend
   const legendAxisGroup2 = legendGroup2.append("g")
     .attr("transform", `translate(0, ${legendHeight2})`)
     .call(d3.axisBottom(legendScale2).ticks(5));
@@ -339,6 +371,7 @@ d3.csv("./temperature_daily.csv").then(data => {
     .attr("class", "mini-legend")
     .attr("transform", `translate(${margin2.left}, ${height2 + margin2.top + 60})`);
 
+  // Create miniLegendGroup
   miniLegendGroup.append("line")
     .attr("x1", 0)
     .attr("y1", 0)
